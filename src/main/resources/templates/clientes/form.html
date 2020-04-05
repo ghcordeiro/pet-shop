@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<ul style="color: darkred;">
+		<li th:each="err : ${erros}" th:text="${err}">Erro</li>
+	</ul>
+	<form method="post" th:object="${cliente}">
+		<div>
+			<label for="i-codigo">Código</label>
+			<input id="i-codigo" name="id" disabled th:field="*{id}" />
+		</div>
+		<div>
+			<label for="i-nome">Nome</label>
+			<input id="i-nome" name="nome" th:field="*{nome}" />
+		</div>
+		<div>
+			<label for="i-cpf">CPF</label>
+			<input id="i-cpf" name="cpf" th:field="*{cpf}" />
+		</div>
+		<div>
+			<button type="submit">Gravar</button>
+		</div>
+	</form>
+</body>
+</html>

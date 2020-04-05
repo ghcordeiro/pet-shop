@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>Atenção</h3>
+	<form method="post">
+		<p>Deseja realmente exluir o cliente 
+			<b th:text="@{${cliente.id} + ' - ' + ${cliente.nome}}">1 - Alberto</b>?</p>
+		<button type="submit">Confirmar</button>
+	</form>
+</body>
+</html>
