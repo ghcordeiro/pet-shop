@@ -1,78 +1,72 @@
 <!DOCTYPE html>
 <html th:replace="~{fragmentos/layout :: layout (~{::body}, 'Listagem de Animais')}"
-	  xmlns:th="http://www.thymeleaf.org">
-<body>
+      xmlns:th="http://www.thymeleaf.org">
+<body onload="onLoadPage()">
 <div class="container">
-	<h2>Lista de animais</h2>
-	<table class="table">
-		<thead class="thead-light">
-		<tr>
-			<th scope="row">Código</th>
-			<th>Nome</th>
-			<th>Espécie</th>
-			<th colspan="3">Dono</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr scope="row" th:each="animal : ${animais}">
-			<td th:text="${animal.id}">0</td>
-			<td th:text="${animal.nome}">Dino</td>
-			<td th:text="${animal.especie}">CACHORRO</td>
-			<td th:text="${animal.dono.nome}">Baltazar</td>
-			<td>
-				<a class="btn btn-outline-secondary" th:href="@{'/animais/' + ${animal.id} + '/edit'}">Editar</a>
-			</td>
-			<td>
-				<button type="button"
-						class="btn btn-outline-danger"
-						data-toggle="modal"
-						data-target="#exampleModal"
-						th:attr="data-whatever=${animal.getId()}">Delete</button>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	<a class="btn btn-outline-primary" href="/animais/add">Novo</a>
+    <h2>Lista de animais</h2>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="row">Código</th>
+            <th>Nome</th>
+            <th>Espécie</th>
+            <th colspan="3">Dono</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row" th:each="animal : ${animais}">
+            <td th:text="${animal.id}">0</td>
+            <td th:text="${animal.nome}">Dino</td>
+            <td th:text="${animal.especie}">CACHORRO</td>
+            <td th:text="${animal.dono.nome}">Baltazar</td>
+            <td>
+                <a class="btn btn-outline-secondary" th:href="@{'/animais/' + ${animal.id} + '/edit'}">Editar</a>
+            </td>
+            <td>
+                <button class="btn btn-outline-danger"
+                        data-target="#animalModal"
+                        data-toggle="modal"
+                        th:attr="data-whatever=${animal.getId()} + ' - ' + ${animal.getNome()}"
+                        type="button">Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-outline-primary" href="/animais/add">Novo</a>
 
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Deletar animal</h5>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-						<label for="recipient-name" class="col-form-label">Recipient:</label>
-						<input type="text" class="form-control" id="recipient-name">
-					</div>
-						<div class="form-group">
-							<label for="message-text" class="col-form-label">Message:</label>
-							<textarea class="form-control" id="message-text"></textarea>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-					<button type="button" class="btn btn-danger">Deletar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal -->
-
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="animalModal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <form id="delete" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancelar</button>
+                        <button class="btn btn-danger" type="submit">Deletar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal -->
 </div>
 <script>
-	$('#exampleModal').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) // Button that triggered the modal
-		var recipient = button.data('whatever') // Extract info from data-* attributes
-		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-		var modal = $(this)
-		modal.find('.modal-title').text('/animais/' + recipient + '/delete')
-		modal.find('.modal-body input').val(recipient)
-	})
+    function onLoadPage(){
+    $('#animalModal').on('show.bs.modal',
+        function (event) {
+            let button = $(event.relatedTarget);
+            let recipient = button.data('whatever');
+            let animal = recipient.split(' - ', 2);
+            let form = document.getElementById('delete');
+            let modal = $(this);
+            form.setAttribute('action', '/animais/' + animal[0] + '/delete');
+            modal.find('.modal-title').text(`Deseja realmente exluir o animal ${animal[0]} - ${animal[1]}?`);
+        }
+    )}
 </script>
 </body>
 </html>

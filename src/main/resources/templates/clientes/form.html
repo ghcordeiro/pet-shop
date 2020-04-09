@@ -1,29 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<html th:replace="~{fragmentos/layout :: layout (~{::body}, 'Cadastro de cliente')}"
+      xmlns:th="http://www.thymeleaf.org">
 <body>
-	<ul style="color: darkred;">
-		<li th:each="err : ${erros}" th:text="${err}">Erro</li>
-	</ul>
-	<form method="post" th:object="${cliente}">
-		<div>
-			<label for="i-codigo">Código</label>
-			<input id="i-codigo" name="id" disabled th:field="*{id}" />
-		</div>
-		<div>
-			<label for="i-nome">Nome</label>
-			<input id="i-nome" name="nome" th:field="*{nome}" />
-		</div>
-		<div>
-			<label for="i-cpf">CPF</label>
-			<input id="i-cpf" name="cpf" th:field="*{cpf}" />
-		</div>
-		<div>
-			<button type="submit">Gravar</button>
-		</div>
-	</form>
+<div class="container">
+    <form method="post" th:object="${cliente}">
+        <div class="form-group">
+            <label for="i-codigo">Código</label>
+            <input class="form-control" disabled id="i-codigo" name="id" th:field="*{id}"/>
+        </div>
+        <div class="form-group">
+            <label for="i-nome">Nome</label>
+            <input class="form-control" id="i-nome" name="nome"
+                   th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ''}"
+                   th:field="*{nome}"/>
+            <div class="invalid-feedback" th:errors="*{nome}"></div>
+        </div>
+        <div class="form-group">
+            <label for="i-cpf">CPF</label>
+            <input class="form-control" id="i-cpf" name="cpf"
+                   th:classappend="${#fields.hasErrors('cpf') ? 'is-invalid' : ''}"
+                   th:field="*{cpf}"/>
+            <div class="invalid-feedback" th:errors="*{cpf}"></div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Gravar</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
