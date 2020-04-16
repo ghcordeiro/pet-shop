@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/layout :: layout (~{::body}, 'Cadastro de serviço')}">
+<body>
+	<div class="container">
+		<form method="post" th:object="${servico}">
+			<div class="form-group">
+				<label for="i-codigo">Código</label>
+				<input id="i-codigo" name="id" disabled class="form-control" th:field="*{id}" />
+			</div>
+			<div class="form-group">
+				<label for="i-nome">Nome</label>
+				<input id="i-nome" name="nome" class="form-control" 
+				       th:field="*{nome}"
+					   th:classappend="${#fields.hasErrors('nome') ? 'is-invalid' : ''}" />
+				<div class="invalid-feedback" th:errors="*{nome}"></div>
+			</div>
+			<div class="form-group">
+				<label for="i-valor">Valor</label>
+				<input id="i-valor" name="valor" class="form-control"
+					   th:field="*{valor}"
+					   th:classappend="${#fields.hasErrors('valor') ? 'is-invalid' : ''}" />
+				<div class="invalid-feedback" th:errors="*{valor}"></div>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">Gravar</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
